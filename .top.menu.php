@@ -62,6 +62,13 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"IsModuleInstalled('rest')" 
-	)
+	),
+    Array(
+        "Test",
+        "/test/",
+        Array(),
+        Array(),
+        ""
+    )
 );
 ?>
