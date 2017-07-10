@@ -4,7 +4,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 use Bitrix\Disk\Folder;
 use Bitrix\Main\FileTable;
 
-$arParams["MainFolder"]=521;
+//$arParams["MainFolder"]=521;
 
 $RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
 while ($row = $RoomCount->fetch()){
