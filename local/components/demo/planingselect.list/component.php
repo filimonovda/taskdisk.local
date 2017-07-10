@@ -35,9 +35,5 @@ while ($row = $AreaSize->fetch()){
         $arResult['SelectVariantPlansList'][]=array("ID"=>$rowPlans["FILE_ID"], "NAME"=>$rowPlans["NAME"], "RoomCount"=>$elRoomCount["ID"], "TypeHouse"=>$elTypeHouse["ID"], "AreaSize"=>$row["ID"], "SmilePicURL"=>$SmilePicURL);
     }
 }
-
-//echo "<pre>";
-//print_r($arResult);
-//echo "</pre>";
 $this->IncludeComponentTemplate($componentPage);
 ?>
