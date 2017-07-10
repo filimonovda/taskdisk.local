@@ -1,11 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Title");
-?><?$APPLICATION->IncludeComponent(
-	"demo:planingselect.list",
-	"",
-Array()
-);?><?$APPLICATION->IncludeComponent("bitrix:iblock.element.add", "template", Array(
+?><?$APPLICATION->IncludeComponent("bitrix:iblock.element.add", "template", Array(
 	"AJAX_MODE" => "N",	// Включить режим AJAX
 		"AJAX_OPTION_ADDITIONAL" => "",	// Дополнительный идентификатор
 		"AJAX_OPTION_HISTORY" => "N",	// Включить эмуляцию навигации браузера

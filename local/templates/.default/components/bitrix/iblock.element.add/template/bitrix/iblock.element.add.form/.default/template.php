@@ -254,6 +254,13 @@ if (strlen($arResult["MESSAGE"]) > 0):?>
 										}
 									}
 								}
+?>
+                                <br /><br />
+                                <?$APPLICATION->IncludeComponent(
+                                "demo:planingselect.list",
+                                "",
+                                Array()
+                                );
 
 							break;
 							case "L":
@@ -341,7 +348,7 @@ if (strlen($arResult["MESSAGE"]) > 0):?>
 					<td><?=GetMessage("IBLOCK_FORM_CAPTCHA_TITLE")?></td>
 					<td>
 						<input type="hidden" name="captcha_sid" value="<?=$arResult["CAPTCHA_CODE"]?>" />
-						<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult[" width="180" height="40" alt="CAPTCHA" />
+						<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$arResult["CAPTCHA_CODE"]?> width="180" height="40" alt="CAPTCHA" />
 					</td>
 				</tr>
 				<tr>
