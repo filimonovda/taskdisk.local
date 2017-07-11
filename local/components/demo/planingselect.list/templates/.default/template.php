@@ -34,12 +34,14 @@ Loc::loadMessages(__FILE__);
             }
         }*/
 
-        /*var eldisable = document.querySelectorAll('div#imgplains div');
+       //скрываем все
+        var eldisable = document.querySelectorAll('div#imgplains div');
         for (var indexdisable = 0; indexdisable < eldisable.length; indexdisable++) {
             if (eldisable[indexdisable].className === "enable") {
                 eldisable[indexdisable].className = "disable";
             }
-        }*/
+        }
+        //скрываем все
 
         var SelectRoomCountObg = document.getElementById("SelectRoomCountList");
         var SelectTypeHouseObg = document.getElementById("SelectTypeHouseList");
@@ -49,15 +51,21 @@ Loc::loadMessages(__FILE__);
         var SelectTypeHouseValue = SelectTypeHouseObg.options[SelectTypeHouseObg.selectedIndex].value;
         var SelectAreaSizeValue = SelectAreaSizeObg.options[SelectAreaSizeObg.selectedIndex].value;
 
-        var searchar= new Array();
-        //if(SelectRoomCountValue != "all")
-            var searchar1=searchar.push('SelectRoomCountList="' + SelectRoomCountValue + '"');
-        //if(SelectTypeHouseValue != "all")
-            searchar=searchar.push('SelectTypeHouseList="' + SelectTypeHouseValue + '"');
-        //if(SelectAreaSizeValue != "all")
-            searchar=searchar.push('SelectAreaSizeList="' + SelectAreaSizeValue + '"');
-        var searchstr=searchar.join(",");
-        alert(searchstr);
+        var searchar = [];
+        if(SelectRoomCountValue !== "all") searchar.push('div#imgplains div[SelectRoomCountList="' + SelectRoomCountValue + '"]');
+        if(SelectTypeHouseValue !== "all") searchar.push('div#imgplains div[SelectTypeHouseList="' + SelectTypeHouseValue + '"]');
+        if(SelectAreaSizeValue !== "all") searchar.push('div#imgplains div[SelectAreaSizeList="' + SelectAreaSizeValue + '"]');
+        //var searchstr=searchar.join(",");
+
+        //показываем что соответсвует результатам поиска
+        var elenable = document.querySelectorAll(searchar);
+        for (var indexenable = 0; indexenable < elenable.length; indexenable++) {
+            elenable[indexenable].className = "enable";
+            if (elenable[indexenable].className === "disable") {
+                elenable[indexenable].className = "enable";
+            }
+        }
+        //показываем что соответсвует результатам поиска
     }
 </script>
 
@@ -65,21 +73,21 @@ Loc::loadMessages(__FILE__);
     <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems()">
         <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectRoomCountList'] as $key => $value):?>
-        <option value="<?=$key?>"><?=$value?></option>
+        <option value="<?=$value?>"><?=$value?></option>
     <?endforeach;?>
     </select>
 
     <select name="SelectTypeHouseList" id="SelectTypeHouseList" onchange="javascript:selectadditems()">
         <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectTypeHouseList'] as $key => $value):?>
-        <option value="<?=$key?>"><?=$value?></option>
+        <option value="<?=$value?>"><?=$value?></option>
     <?endforeach;?>
     </select>
 
     <select name="SelectAreaSizeList" id="SelectAreaSizeList" onchange="javascript:selectadditems()">
         <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectAreaSizeList'] as $key => $value):?>
-        <option value="<?=$key?>"><?=$value?></option>
+        <option value="<?=$value?>"><?=$value?></option>
     <?endforeach;?>
     </select>
 </div>

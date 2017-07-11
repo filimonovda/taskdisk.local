@@ -4,8 +4,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 use Bitrix\Disk\Folder;
 use Bitrix\Main\FileTable;
 
-//$arParams["MainFolder"]=521;
-
 $RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
 while ($row = $RoomCount->fetch()){
     $RoomCountID[]=$row["ID"];
@@ -32,7 +30,7 @@ while ($row = $AreaSize->fetch()){
         $elTypeHouse=Folder::getList(array("select"=>array("ID","PARENT_ID","NAME"), "filter"=>array("=ID"=>$row["PARENT_ID"], "=TYPE"=>2, "=DELETED_TYPE"=>0),"limit"=>1))->fetch();
         $elRoomCount=Folder::getList(array("select"=>array("ID","PARENT_ID","NAME"), "filter"=>array("=ID"=>$elTypeHouse["PARENT_ID"], "=TYPE"=>2, "=DELETED_TYPE"=>0),"limit"=>1))->fetch();
         $SmilePicURL="/upload/".$arFile["SUBDIR"]."/".$arFile["FILE_NAME"];//FileTable::getById($rowPlans["FILE_ID"])->fetch(), Array("width" => 150, "height" => 300);
-        $arResult['SelectVariantPlansList'][]=array("ID"=>$rowPlans["FILE_ID"], "NAME"=>$rowPlans["NAME"], "RoomCount"=>$elRoomCount["ID"], "TypeHouse"=>$elTypeHouse["ID"], "AreaSize"=>$row["ID"], "SmilePicURL"=>$SmilePicURL);
+        $arResult['SelectVariantPlansList'][]=array("ID"=>$rowPlans["FILE_ID"], "NAME"=>$rowPlans["NAME"], "RoomCount"=>$elRoomCount["NAME"], "TypeHouse"=>$elTypeHouse["NAME"], "AreaSize"=>$row["NAME"], "SmilePicURL"=>$SmilePicURL);
     }
 }
 $this->IncludeComponentTemplate($componentPage);
