@@ -1,17 +1,8 @@
 <?php
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true) die();
-/** @var array $arParams */
-/** @var array $arResult */
-/** @global CMain $APPLICATION */
-/** @global CUser $USER */
-/** @global CDatabase $DB */
-/** @var CBitrixComponentTemplate $this */
-/** @var string $templateName */
-/** @var string $templateFile */
-/** @var string $templateFolder */
-/** @var string $componentPath */
-/** @var \Bitrix\Disk\Internals\BaseComponent $component */
+
 use Bitrix\Main\Localization\Loc;
+Loc::loadMessages(__FILE__);
 ?>
 <style>
     .disable{
@@ -22,13 +13,13 @@ use Bitrix\Main\Localization\Loc;
     }
 </style>
 <script language="JavaScript">
-    function selectadditems(selectObject) {
-        var nextid=selectObject.id; //атрибут
-        var parentid=selectObject.options[selectObject.selectedIndex].value; //значение
+    function selectadditems() {
+        //var nextid=selectObject.id; //атрибут
+        //var parentid=selectObject.options[selectObject.selectedIndex].value; //значение
         //var el = document.querySelector("div[SelectRoomCountList=522]");
         //var el = document.querySelector('div#imgplains div[SelectRoomCountList="522"]');
 
-        var eldisable = document.querySelectorAll('div#imgplains div[' + nextid + ']');
+       /*var eldisable = document.querySelectorAll('div#imgplains div[' + nextid + ']');
         for (var indexdisable = 0; indexdisable < eldisable.length; indexdisable++) {
             if (eldisable[indexdisable].className === "enable") {
                 eldisable[indexdisable].className = "disable";
@@ -41,45 +32,52 @@ use Bitrix\Main\Localization\Loc;
             if (elenable[indexenable].className === "disable") {
                 elenable[indexenable].className = "enable";
             }
-        }
-        /*while (){
-            eldisable.className = "disable";
         }*/
 
-        /*do {
-            var el = document.querySelector('div#imgplains div[' + nextid + '="' + parentid + '"]');
-            el.className = "enable";
-        } while (el)*/
-        //$("div[nextid*='parentid']").className="disabled";
-        //$("div:not([nextid*='parentid'])").className="enable";
+        /*var eldisable = document.querySelectorAll('div#imgplains div');
+        for (var indexdisable = 0; indexdisable < eldisable.length; indexdisable++) {
+            if (eldisable[indexdisable].className === "enable") {
+                eldisable[indexdisable].className = "disable";
+            }
+        }*/
 
-            //alert(el.className);
-            //alert(selectObject.options[selectObject.selectedIndex].value);
+        var SelectRoomCountObg = document.getElementById("SelectRoomCountList");
+        var SelectTypeHouseObg = document.getElementById("SelectTypeHouseList");
+        var SelectAreaSizeObg = document.getElementById("SelectAreaSizeList");
 
-            //var selectBox = document.getElementById(nextID);
-            //var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        var SelectRoomCountValue = SelectRoomCountObg.options[SelectRoomCountObg.selectedIndex].value;
+        var SelectTypeHouseValue = SelectTypeHouseObg.options[SelectTypeHouseObg.selectedIndex].value;
+        var SelectAreaSizeValue = SelectAreaSizeObg.options[SelectAreaSizeObg.selectedIndex].value;
 
-
-            //document.getElementById('test').innerHTML = ""; // очищаем Select
-            //document.getElementById('sel_1').options.length = 0; // еще один способ очистки, найденный в интернете
-            //document.getElementById('test').innerHTML = "<select id='sel_1'><option>Воронеж</option><option>Новгород</option></select>"; // вставляем новые option'ы
+        var searchar= new Array();
+        //if(SelectRoomCountValue != "all")
+            var searchar1=searchar.push('SelectRoomCountList="' + SelectRoomCountValue + '"');
+        //if(SelectTypeHouseValue != "all")
+            searchar=searchar.push('SelectTypeHouseList="' + SelectTypeHouseValue + '"');
+        //if(SelectAreaSizeValue != "all")
+            searchar=searchar.push('SelectAreaSizeList="' + SelectAreaSizeValue + '"');
+        var searchstr=searchar.join(",");
+        alert(searchstr);
     }
 </script>
 
 <div>
-    <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems(this)">
+    <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems()">
+        <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectRoomCountList'] as $key => $value):?>
         <option value="<?=$key?>"><?=$value?></option>
     <?endforeach;?>
     </select>
 
-    <select name="SelectTypeHouseList" id="SelectTypeHouseList" onchange="javascript:selectadditems(this)">
+    <select name="SelectTypeHouseList" id="SelectTypeHouseList" onchange="javascript:selectadditems()">
+        <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectTypeHouseList'] as $key => $value):?>
         <option value="<?=$key?>"><?=$value?></option>
     <?endforeach;?>
     </select>
 
-    <select name="SelectAreaSizeList" id="SelectAreaSizeList" onchange="javascript:selectadditems(this)">
+    <select name="SelectAreaSizeList" id="SelectAreaSizeList" onchange="javascript:selectadditems()">
+        <option value="all"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectAreaSizeList'] as $key => $value):?>
         <option value="<?=$key?>"><?=$value?></option>
     <?endforeach;?>
