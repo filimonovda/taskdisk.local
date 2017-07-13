@@ -1,5 +1,7 @@
 <?
 IncludeModuleLangFile(__FILE__);
+use Bitrix\Main;
+
 Class demo_moduled7 extends CModule
 {
 	const MODULE_ID = 'demo.moduled7';
@@ -10,6 +12,10 @@ Class demo_moduled7 extends CModule
 	var $MODULE_DESCRIPTION;
 	var $MODULE_CSS;
 	var $strError = '';
+
+
+
+//include $_SERVER['DOCUMENT_ROOT'] . "/local/modules/" . $MODULE_ID . "/lib/moduled7.php";
 
 	function __construct()
 	{
@@ -26,31 +32,25 @@ Class demo_moduled7 extends CModule
 
 	function InstallDB($arParams = array())
 	{
-		/*global $DB;
-		$DB->Query("
-			CREATE TABLE `demo_moduled7` (
-				`ID` int NOT NULL AUTO_INCREMENT,
-				`ID_USER` varchar(255) NOT NULL,
-				`TITLE` varchar(255) NOT NULL,
-				PRIMARY KEY(`ID`)
-			);
-		", true);*/
-        if(!Application::getConnection(\Simbirsoft\Main\Entity\CrmDealHistoryRieltorTable::getConnectionName())->isTableExists(
-            Base::getInstance('\Simbirsoft\Main\Entity\CrmDealHistoryRieltorTable')->getDBTableName()
+        Main\Loader::includeModule($this -> MODULE_ID);
+
+		if(!Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->isTableExists(
+            Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName()
         )
         ) {
-            Base::getInstance('\Simbirsoft\Main\Entity\CrmDealHistoryRieltorTable')->createDbTable();
+            Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->createDbTable();
         }
 
-		RegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
-		return true;
+        return true;
 	}
 
 	function UnInstallDB($arParams = array())
 	{
-		global $DB;
-		$DB->Query("DROP TABLE `demo_moduled7`;", true);
-		UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+        Main\Loader::includeModule($this -> MODULE_ID);
+        Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->query('drop table if exists '.Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName());
+
+		//$DB->Query("DROP TABLE `demo_moduled7`;", true);
+		//UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
 		return true;
 	}
 
@@ -138,17 +138,17 @@ Class demo_moduled7 extends CModule
 	function DoInstall()
 	{
 		global $APPLICATION;
+        RegisterModule(self::MODULE_ID);
 		$this->InstallFiles();
-		$this->InstallDB();
-		RegisterModule(self::MODULE_ID);
+        $this->InstallDB();
 	}
 
 	function DoUninstall()
 	{
 		global $APPLICATION;
-		UnRegisterModule(self::MODULE_ID);
 		$this->UnInstallDB();
 		$this->UnInstallFiles();
+        UnRegisterModule(self::MODULE_ID);
 	}
 }
 ?>
