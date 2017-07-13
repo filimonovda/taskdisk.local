@@ -40,7 +40,8 @@ Class demo_moduled7 extends CModule
         ) {
             Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->createDbTable();
         }
-
+        RegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+        RegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
         return true;
 	}
 
@@ -49,9 +50,9 @@ Class demo_moduled7 extends CModule
         Main\Loader::includeModule($this -> MODULE_ID);
         Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->query('drop table if exists '.Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName());
 
-		//$DB->Query("DROP TABLE `demo_moduled7`;", true);
-		//UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
-		return true;
+		UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+        UnRegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
+        return true;
 	}
 
 	function InstallEvents()
