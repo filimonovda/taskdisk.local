@@ -1,9 +1,19 @@
 <?
 Class CDemoModuled 
 {
-	function beforeUpdateElementID()
+	function beforeUpdateElementID(&$arFields)
 	{
+        define("LOG_FILENAME", $_SERVER["DOCUMENT_ROOT"]."/log.txt");
+        AddMessage2Log($arFields);
 
+		Demo\Moduled7\Moduled7Table::add(
+			array(
+				"fields" => array(
+		        	"ID_USER" => $arFields["CREATED_BY"],
+					"TITLE" => $arFields["NAME"]
+				)
+			)
+		);
 	}
 
 
