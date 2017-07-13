@@ -34,15 +34,6 @@ Loc::loadMessages(__FILE__);
             }
         }*/
 
-       //скрываем все
-        var eldisable = document.querySelectorAll('div#imgplains div');
-        for (var indexdisable = 0; indexdisable < eldisable.length; indexdisable++) {
-            if (eldisable[indexdisable].className === "enable") {
-                eldisable[indexdisable].className = "disable";
-            }
-        }
-        //скрываем все
-
         var SelectRoomCountObg = document.getElementById("SelectRoomCountList");
         var SelectTypeHouseObg = document.getElementById("SelectTypeHouseList");
         var SelectAreaSizeObg = document.getElementById("SelectAreaSizeList");
@@ -57,14 +48,32 @@ Loc::loadMessages(__FILE__);
         if(SelectAreaSizeValue !== "all") searchar.push('div#imgplains div[SelectAreaSizeList="' + SelectAreaSizeValue + '"]');
         //var searchstr=searchar.join(",");
 
-        //показываем что соответсвует результатам поиска
-        var elenable = document.querySelectorAll(searchar);
-        for (var indexenable = 0; indexenable < elenable.length; indexenable++) {
-            elenable[indexenable].className = "enable";
-            if (elenable[indexenable].className === "disable") {
+        alert(searchar);
+        if(searchar.length>0) {
+            //скрываем все
+            var eldisable = document.querySelectorAll('div#imgplains div');
+            for (var indexdisable = 0; indexdisable < eldisable.length; indexdisable++) {
+                if (eldisable[indexdisable].className === "enable") {
+                    eldisable[indexdisable].className = "disable";
+                }
+            }
+            //скрываем все
+        }else{
+            var elenable = document.querySelectorAll('div#imgplains div');
+            for (var indexenable = 0; indexenable < elenable.length; indexenable++) {
                 elenable[indexenable].className = "enable";
             }
         }
+
+        //показываем что соответсвует результатам поиска
+        var elenableselect = document.querySelectorAll(searchar);
+        for (var indexenableselect = 0; indexenableselect < elenableselect.length; indexenableselect++) {
+            elenableselect[indexenableselect].className = "enable";
+            if (elenableselect[indexenableselect].className === "disable") {
+                elenableselect[indexenableselect].className = "enable";
+            }
+        }
+
         //показываем что соответсвует результатам поиска
     }
 </script>
@@ -92,7 +101,15 @@ Loc::loadMessages(__FILE__);
     </select>
 </div>
 <div id="imgplains">
+    <?
+    print_r($arParams);
+    $NextID=0;
+    ?>
 <?foreach ($arResult['SelectVariantPlansList'] as $arResult):?>
-    <div class="enable" style="float: left; padding: 10px;" SelectRoomCountList="<?=$arResult["RoomCount"]?>" SelectTypeHouseList="<?=$arResult["TypeHouse"]?>" SelectAreaSizeList="<?=$arResult["AreaSize"]?>"><img src="<?=$arResult["SmilePicURL"]?>" style="max-height: 300px;"></div>
+    <?
+    $NextID++;
+    ?>
+    <input type="hidden" size="30" name="PROPERTY[<?=$arParams['PropertyID']?>][<?=$NextID?>]" value="<?=$arResult["SmilePicURL"]?>">
+    <div class="enable" style="float: left; padding: 10px;" SelectRoomCountList="<?=$arResult["RoomCount"]?>" SelectTypeHouseList="<?=$arResult["TypeHouse"]?>" SelectAreaSizeList="<?=$arResult["AreaSize"]?>"><input type="checkbox"><img src="<?=$arResult["SmilePicURL"]?>" style="max-height: 300px;"></div>
 <?endforeach;?>
 </div>

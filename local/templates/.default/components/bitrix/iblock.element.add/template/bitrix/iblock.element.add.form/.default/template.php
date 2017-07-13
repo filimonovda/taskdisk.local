@@ -256,12 +256,13 @@ if (strlen($arResult["MESSAGE"]) > 0):?>
 								}
 ?>
                                 <br /><br />
-                                <?$APPLICATION->IncludeComponent(
+<?$APPLICATION->IncludeComponent(
 	"demo:planingselect.list", 
 	".default", 
 	array(
 		"COMPONENT_TEMPLATE" => ".default",
-		"MainFolder" => "521"
+		"MainFolder" => "521",
+        "PropertyID" => "99"
 	),
 	false
 );
