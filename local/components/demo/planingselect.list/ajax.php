@@ -1,12 +1,10 @@
 <?
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
-//use Bitrix\Disk\Folder;
-//use Bitrix\Main\FileTable;
+use Bitrix\Disk\Folder;
+use Bitrix\Main\FileTable;
 
-print_r($_REQUEST);
-
-/*$RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
+$RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
 while ($row = $RoomCount->fetch()){
     $RoomCountID[]=$row["ID"];
     $arResult['SelectRoomCountList'][$row["ID"]]=$row["NAME"];
@@ -34,6 +32,9 @@ while ($row = $AreaSize->fetch()){
         $SmilePicURL="/upload/".$arFile["SUBDIR"]."/".$arFile["FILE_NAME"];//FileTable::getById($rowPlans["FILE_ID"])->fetch(), Array("width" => 150, "height" => 300);
         $arResult['SelectVariantPlansList'][]=array("ID"=>$rowPlans["FILE_ID"], "NAME"=>$rowPlans["NAME"], "RoomCount"=>$elRoomCount["NAME"], "TypeHouse"=>$elTypeHouse["NAME"], "AreaSize"=>$row["NAME"], "SmilePicURL"=>$SmilePicURL);
     }
-}*/
-$this->IncludeComponentTemplate($componentPage);
+}
+
 ?>
+<?foreach ($arResult['SelectVariantPlansList'] as $arResult):?>
+    <div class="enable" style="float: left; padding: 10px;" SelectRoomCountList="<?=$arResult["RoomCount"]?>" SelectTypeHouseList="<?=$arResult["TypeHouse"]?>" SelectAreaSizeList="<?=$arResult["AreaSize"]?>"><input type="checkbox" name="file[]" value="<?=$arResult["SmilePicURL"]?>"><img src="<?=$arResult["SmilePicURL"]?>" style="max-height: 300px;"></div>
+<?endforeach;?>
