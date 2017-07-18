@@ -1,5 +1,5 @@
 <?
-echo "<pre>";
-print_r($arResult);
-echo "</pre>";
+foreach ($arResult as $value){
+   echo "<p>".$value['TITLE']."</p>";
+}
 ?>
