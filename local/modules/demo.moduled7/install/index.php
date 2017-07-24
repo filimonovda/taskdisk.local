@@ -40,8 +40,9 @@ Class demo_moduled7 extends CModule
         ) {
             Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->createDbTable();
         }
-        RegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+        //RegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
         RegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
+        RegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
         return true;
 	}
 
@@ -50,8 +51,9 @@ Class demo_moduled7 extends CModule
         Main\Loader::includeModule($this -> MODULE_ID);
         Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->query('drop table if exists '.Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName());
 
-		UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+		//UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
         UnRegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
+        UnRegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
         return true;
 	}
 

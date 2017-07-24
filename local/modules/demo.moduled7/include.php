@@ -66,5 +66,65 @@ Class CDemoModuled
 		}
 		$aModuleMenu[] = $aMenu;
 	}
+
+    static public function onCheckTable($arCheckList)
+    {
+        $checkList = array('CATEGORIES' => array(), 'POINTS' => array());
+
+        $checkList['CATEGORIES']['DEMO_QA'] = array(
+            'NAME' => 'Первый тест',
+            'LINKS' => ''
+        );
+
+        $checkList['POINTS']['DEMO_QA_TABLE'] = array(
+            'PARENT' => 'DEMO_QA',
+            'REQUIRE' => 'Y',
+            'AUTO' => 'Y',
+            'CLASS_NAME' => __CLASS__,
+            'METHOD_NAME' => 'checkTable',
+            'NAME' => 'Проверяем наличие таблицы',
+            'DESC' => 'Краткое описание',
+            'HOWTO' => 'Много текста',
+            'LINKS' => 'links'
+        );
+
+        $checkList['POINTS']['DEMO_QA_MAN'] = array(
+            'PARENT' => 'DEMO_QA',
+            'REQUIRE' => 'N',
+            'AUTO' => 'N',
+            'NAME' => 'Ручной тест',
+            'DESC' => 'Описание ручного теста',
+            'HOWTO' => 'Много текста',
+        );
+
+        return $checkList;
+    }
+
+    static public function checkTable($arParams)
+    {
+        Bitrix\Main\Loader::includeModule('demo.moduled7');
+
+        $arResult = array('STATUS' => 'F');
+
+        if(!Bitrix\Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->isTableExists(
+            Bitrix\Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName()
+        )){
+            $arResult = array(
+                'STATUS' => false,
+                'MESSAGE' => array(
+                    'PREVIEW' => 'Таблица не найдена',
+                    'DETAIL' => 'Может забыли создать? ;(',
+                ),
+            );
+        }else{
+            $arResult = array(
+                'STATUS' => true,
+                'MESSAGE' => array(
+                    'PREVIEW' => 'Бинго! Табличка на месте!',
+                ),
+            );
+		}
+		return $arResult;
+    }
 }
 ?>
