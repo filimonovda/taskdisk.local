@@ -3,7 +3,9 @@ namespace Demo\Moduled7;
 
 use Bitrix\Main,
 	Bitrix\Main\Localization\Loc,
-	Bitrix\Main\Entity;
+	Bitrix\Main\Entity,
+    Bitrix\Highloadblock\HighloadBlockTable as HLBTb,
+    Bitrix\Main\Loader;
 	
 Loc::loadMessages(__FILE__);
 
@@ -39,29 +41,37 @@ class Moduled7Table extends Main\Entity\DataManager
 	 */
 	public static function getMap()
 	{
-		return array(
+        Loader::includeSharewareModule("highloadblock");
+        Loader::includeSharewareModule("iblock");
+        $HLGetList = HLBTb::GetList(array("filter" => array('TABLE_NAME' => 'demo_hl_color')))->Fetch();
+        $HLEntity = HLBTb::compileEntity($HLGetList);
+
+        return array(
 			'ID' => array(
 				'data_type' => 'integer',
 				'primary' => true,
 				'autocomplete' => true,
 				'title' => Loc::getMessage('MODULED7_ENTITY_ID_FIELD'),
 			),
-			'ID_USER' => array(
-				'data_type' => 'string',
+			'IBLOCK_ID' => array(
+				'data_type' => 'integer',
 				'required' => true,
-				'validation' => array(__CLASS__, 'validateIdUser'),
 				'title' => Loc::getMessage('MODULED7_ENTITY_ID_USER_FIELD'),
 			),
-			'TITLE' => array(
-				'data_type' => 'string',
+			'ELEMENT_ID' => array(
+				'data_type' => 'integer',
 				'required' => true,
-				'validation' => array(__CLASS__, 'validateTitle'),
 				'title' => Loc::getMessage('MODULED7_ENTITY_TITLE_FIELD'),
 			),
+            'COLOR_ID' => array(
+                'data_type' => 'integer',
+                'required' => true,
+                'title' => Loc::getMessage('MODULED7_ENTITY_TITLE_FIELD'),
+            ),
             new Entity\ReferenceField(
-                'USER',
-                '\Bitrix\Main\UserTable',
-                array('=this.ID_USER' => 'ref.ID')
+                'HLCOLOR',
+                $HLEntity,
+                ['this.COLOR_ID' => 'ref.ID']
             ),
 		);
 	}

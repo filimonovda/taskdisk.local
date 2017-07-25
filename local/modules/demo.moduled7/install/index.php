@@ -33,6 +33,22 @@ Class demo_moduled7 extends CModule
 	function InstallDB($arParams = array())
 	{
         Main\Loader::includeModule($this -> MODULE_ID);
+        Main\Loader::includeModule("highloadblock");
+
+        Bitrix\Highloadblock\HighloadBlockTable::add(array(
+            'NAME' => 'Color',
+            'TABLE_NAME' => 'demo_hl_color',
+        ));
+
+        $NewHL_ID=Bitrix\Highloadblock\HighloadBlockTable::getList(array("filter" => array('TABLE_NAME' => 'demo_hl_color')))->fetch()['ID'];
+
+        $oUserTypeEntity = new CUserTypeEntity();
+        $aUserFields = array(
+            'ENTITY_ID'         => 'HLBLOCK_'.$NewHL_ID,
+            'FIELD_NAME'        => 'UF_VALUE',
+            'USER_TYPE_ID'      => 'string',
+        );
+        $oUserTypeEntity->Add( $aUserFields );
 
 		if(!Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->isTableExists(
             Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName()
@@ -40,20 +56,36 @@ Class demo_moduled7 extends CModule
         ) {
             Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->createDbTable();
         }
-        //RegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
+
         RegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
         RegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
+        RegisterModuleDependences("main", "OnAdminTabControlBegin", self::MODULE_ID, 'CDemoModuled', "AdminTabColor");
+        RegisterModuleDependences("main", "OnBeforeProlog", self::MODULE_ID, 'CDemoModuled', "AddOrUpdateTable");
+
         return true;
 	}
 
 	function UnInstallDB($arParams = array())
 	{
         Main\Loader::includeModule($this -> MODULE_ID);
+        Main\Loader::includeModule("highloadblock");
+
         Main\Application::getConnection(\Demo\Moduled7\Moduled7Table::getConnectionName())->query('drop table if exists '.Main\Entity\Base::getInstance('\Demo\Moduled7\Moduled7Table')->getDBTableName());
 
-		//UnRegisterModuleDependences('main', 'OnBuildGlobalMenu', self::MODULE_ID, 'CDemoModuled', 'OnBuildGlobalMenu');
-        UnRegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
+		UnRegisterModuleDependences("iblock", "OnAfterIBlockElementAdd", self::MODULE_ID, "CDemoModuled", "beforeUpdateElementID");
         UnRegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
+        UnRegisterModuleDependences("main", "OnAdminTabControlBegin", self::MODULE_ID, 'CDemoModuled', "AdminTabColor");
+        UnRegisterModuleDependences("main", "OnBeforeProlog", self::MODULE_ID, 'CDemoModuled', "AddOrUpdateTable");
+
+        Bitrix\Highloadblock\HighloadBlockTable::delete(
+            Bitrix\Highloadblock\HighloadBlockTable::getList(array(
+                "filter"=>array(
+                    'NAME' => 'Color',
+                    'TABLE_NAME' => 'demo_hl_color',
+                )
+            ))->fetch()["ID"]
+        );
+
         return true;
 	}
 

@@ -1,4 +1,7 @@
 <?
+
+use Bitrix\Highloadblock\HighloadBlockTable as HBT;
+
 Class CDemoModuled 
 {
 	function beforeUpdateElementID(&$arFields)
@@ -15,7 +18,6 @@ Class CDemoModuled
 			)
 		);
 	}
-
 
 	function OnBuildGlobalMenu(&$aGlobalMenu, &$aModuleMenu)
 	{
@@ -126,5 +128,65 @@ Class CDemoModuled
 		}
 		return $arResult;
     }
+
+    function AdminTabColor(&$form)
+    {
+		if($GLOBALS["APPLICATION"]->GetCurPage() == "/bitrix/admin/iblock_element_edit.php")
+        {
+            \Bitrix\Main\Loader::includeSharewareModule("demo.moduled7");
+            $SelectValue = Demo\Moduled7\Moduled7Table::GetList(
+                array(
+                    'select' => array('COLOR_ID'),
+                    'filter' => array(
+						'IBLOCK_ID' => $_REQUEST['IBLOCK_ID'],
+						'ELEMENT_ID' => $_REQUEST['ID']
+                    ),
+                )
+            )->fetch()['COLOR_ID'];
+
+            Bitrix\Main\Loader::includeModule("highloadblock");
+
+			$TABLE_ID = HBT::getList(array('select' => array('ID'),"filter" => array('TABLE_NAME' => 'demo_hl_color')))->fetch()['ID'];
+            $hlblock = HBT::getById($TABLE_ID)->fetch();
+            $entity = HBT::compileEntity($hlblock);
+            $entityClass = $entity->getDataClass();
+
+            $res = $entityClass::getList(array());
+
+            while ($ElementColor = $res->fetch())
+            {
+                ($ElementColor['ID']==$SelectValue) ? $checked=' selected' : $checked='';
+                $Variant .= '<option value="'.$ElementColor['ID'].'"'.$checked.'>'.$ElementColor['UF_VALUE'].'</option>';
+            }
+
+            $form->tabs[] = array("DIV" => "tab_color", "TAB" => "Цвет", "ICON"=>"main_user_edit", "TITLE"=>"Выбор цвета HL", "CONTENT"=>
+                '<tr valign="top">
+				<td>Выберите цвет из HL блока:</td>
+				<td>
+					<select name="HLCOLOR_SELECT">'.
+                $Variant
+					.'</select>
+				</td>
+			</tr>'
+            );
+        }
+    }
+
+    function AddOrUpdateTable(){
+        define("LOG_FILENAME", $_SERVER["DOCUMENT_ROOT"]."/log.txt");
+        AddMessage2Log($_REQUEST);
+        if ($_REQUEST['ID']>0 && $_REQUEST['HLCOLOR_SELECT']>0)
+        {
+        	Bitrix\Main\Loader::includeSharewareModule("demo.moduled7");
+
+            if($UpdateElement = Demo\Moduled7\Moduled7Table::getList(array("filter" => array('IBLOCK_ID' => $_REQUEST['IBLOCK_ID'], 'ELEMENT_ID' => $_REQUEST['ID'])))->fetch()) {
+                Demo\Moduled7\Moduled7Table::update($UpdateElement['ID'], array('COLOR_ID' => $_REQUEST['HLCOLOR_SELECT']));
+            }else{
+                Demo\Moduled7\Moduled7Table::add(array('IBLOCK_ID' => $_REQUEST['IBLOCK_ID'], 'ELEMENT_ID' => $_REQUEST['ID'], 'COLOR_ID' => $_REQUEST['HLCOLOR_SELECT']));
+            }
+
+        }
+	}
 }
 ?>
+
