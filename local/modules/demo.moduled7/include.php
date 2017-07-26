@@ -187,6 +187,38 @@ Class CDemoModuled
 
         }
 	}
+
+	function GetUserTypeDescription(){
+        return array(
+            "PROPERTY_TYPE" => "S",
+            "USER_TYPE" => "MyArray",
+            "DESCRIPTION" => "Произвольный массив",
+            "ConvertToDB" =>array("CDemoModuled","ConvertToDB"),
+            "ConvertFromDB" =>array("CDemoModuled","ConvertFromDB"),
+            "GetPropertyFieldHtml" =>array("CDemoModuled","GetPropertyFieldHtml"),
+            "GetAdminListViewHTML" =>array("CDemoModuled","GetAdminListViewHTML"),
+        );
+	}
+
+	function ConvertToDB($arProperty, $value){
+		return $value;
+	}
+
+	function ConvertFromDB($arProperty, $value){
+		return $value;
+	}
+
+	function GetPropertyFieldHtml($arProperty, $value, $strHTMLControlName){
+        return  CAdminCalendar::CalendarDate($strHTMLControlName["VALUE"], $value["VALUE"], 20).
+            ($arProperty["WITH_DESCRIPTION"]=="Y"?
+                '&nbsp;<input type="text" size="20" name="'.$strHTMLControlName["DESCRIPTION"].'" value="'.htmlspecialchars($value["DESCRIPTION"]).'">'
+                :''
+            );
+	}
+
+	function GetAdminListViewHTML(){
+
+	}
 }
 ?>
 

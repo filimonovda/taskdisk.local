@@ -61,6 +61,7 @@ Class demo_moduled7 extends CModule
         RegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
         RegisterModuleDependences("main", "OnAdminTabControlBegin", self::MODULE_ID, 'CDemoModuled', "AdminTabColor");
         RegisterModuleDependences("main", "OnBeforeProlog", self::MODULE_ID, 'CDemoModuled', "AddOrUpdateTable");
+        RegisterModuleDependences('iblock', 'OnIBlockPropertyBuildList', self::MODULE_ID, 'CDemoModuled', 'GetUserTypeDescription');
 
         return true;
 	}
@@ -76,6 +77,7 @@ Class demo_moduled7 extends CModule
         UnRegisterModuleDependences('main', 'OnCheckListGet', self::MODULE_ID, 'CDemoModuled', 'onCheckTable');
         UnRegisterModuleDependences("main", "OnAdminTabControlBegin", self::MODULE_ID, 'CDemoModuled', "AdminTabColor");
         UnRegisterModuleDependences("main", "OnBeforeProlog", self::MODULE_ID, 'CDemoModuled', "AddOrUpdateTable");
+        UnRegisterModuleDependences('iblock', 'OnIBlockPropertyBuildList', self::MODULE_ID, 'CDemoModuled', 'GetUserTypeDescription');
 
         Bitrix\Highloadblock\HighloadBlockTable::delete(
             Bitrix\Highloadblock\HighloadBlockTable::getList(array(
