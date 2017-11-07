@@ -6,6 +6,11 @@ use Bitrix\Main\FileTable;
 
 if($_POST){
     $el = new CIBlockElement;
+    if(count($_FILES['filepc']['tmp_name'])>0){
+        foreach($_FILES['filepc']['tmp_name'] as $postFile){
+            $arPropFile[]=CFile::MakeFileArray($postFile);
+        }
+    }
     foreach($_POST['file'] as $elFile){
         $arPropFile[]=CFile::MakeFileArray($elFile);
     }

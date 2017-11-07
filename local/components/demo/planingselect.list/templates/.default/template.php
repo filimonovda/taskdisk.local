@@ -32,35 +32,48 @@ Loc::loadMessages(__FILE__);
         }
     }
 </script>
-<form method="post">
-    <label>Имя: </label><input name="name">
-<div>
-    <label>Файлы с диска: </label>
-    <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems()">
-        <option value="*"><?=Loc::getMessage("all")?></option>
-    <?foreach ($arResult['SelectRoomCountList'] as $key => $value):?>
-        <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach;?>
-    </select>
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label>Имя элемента: </label><input name="name"><br>
+    </div>
+    <hr>
+    <div>
+        <laber>Загрузить файлы:</laber><br>
+        <input type="file" name="filepc[]"><br>
+        <input type="file" name="filepc[]"><br>
+        <input type="file" name="filepc[]"><br>
+    </div>
+    <hr>
+    <div>
+        <label>Файлы с диска: </label>
+        <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems()">
+            <option value="*"><?= Loc::getMessage("all") ?></option>
+            <? foreach ($arResult['SelectRoomCountList'] as $key => $value): ?>
+                <option value="<?= $value ?>"><?= $value ?></option>
+            <? endforeach; ?>
+        </select>
 
-    <select name="SelectTypeHouseList" id="SelectTypeHouseList" onchange="javascript:selectadditems()">
-        <option value="*"><?=Loc::getMessage("all")?></option>
-    <?foreach ($arResult['SelectTypeHouseList'] as $key => $value):?>
-        <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach;?>
-    </select>
+        <select name="SelectTypeHouseList" id="SelectTypeHouseList" onchange="javascript:selectadditems()">
+            <option value="*"><?= Loc::getMessage("all") ?></option>
+            <? foreach ($arResult['SelectTypeHouseList'] as $key => $value): ?>
+                <option value="<?= $value ?>"><?= $value ?></option>
+            <? endforeach; ?>
+        </select>
 
-    <select name="SelectAreaSizeList" id="SelectAreaSizeList" onchange="javascript:selectadditems()">
-        <option value="*"><?=Loc::getMessage("all")?></option>
-    <?foreach ($arResult['SelectAreaSizeList'] as $key => $value):?>
-        <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach;?>
-    </select>
-</div>
-<div id="imgplains">
-    <?foreach ($arResult['SelectVariantPlansList'] as $arResult):?>
-        <div class="enable" style="float: left; padding: 10px;" SelectRoomCountList="<?=$arResult["RoomCount"]?>" SelectTypeHouseList="<?=$arResult["TypeHouse"]?>" SelectAreaSizeList="<?=$arResult["AreaSize"]?>"><input type="checkbox" name="file[]" value="<?=$arResult["SmilePicURL"]?>"><img src="<?=$arResult["SmilePicURL"]?>" style="max-height: 300px;"></div>
-    <?endforeach;?>
-</div>
+        <select name="SelectAreaSizeList" id="SelectAreaSizeList" onchange="javascript:selectadditems()">
+            <option value="*"><?= Loc::getMessage("all") ?></option>
+            <? foreach ($arResult['SelectAreaSizeList'] as $key => $value): ?>
+                <option value="<?= $value ?>"><?= $value ?></option>
+            <? endforeach; ?>
+        </select>
+    </div>
+    <div id="imgplains">
+        <? foreach ($arResult['SelectVariantPlansList'] as $arResult): ?>
+            <div class="enable" style="float: left; padding: 10px;" SelectRoomCountList="<?= $arResult["RoomCount"] ?>"
+                 SelectTypeHouseList="<?= $arResult["TypeHouse"] ?>" SelectAreaSizeList="<?= $arResult["AreaSize"] ?>">
+                <input type="checkbox" name="file[]" value="<?= $arResult["SmilePicURL"] ?>"><img
+                        src="<?= $arResult["SmilePicURL"] ?>" style="max-height: 300px;"></div>
+        <? endforeach; ?>
+    </div>
     <input type="submit">
 </form>
