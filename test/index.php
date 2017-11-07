@@ -7,9 +7,9 @@ $APPLICATION->IncludeComponent(
 	".default", 
 	array(
 		"COMPONENT_TEMPLATE" => ".default",
-		"MainFolder" => "521",
+		"MainFolder" => "520",
 		"PropertyID" => "98",
-		"IBLOCK_TYPE" => "test",
+		"IBLOCK_TYPE" => "news",
 		"IBLOCK_ID" => "28"
 	),
 	false

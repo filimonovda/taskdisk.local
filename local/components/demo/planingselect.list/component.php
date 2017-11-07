@@ -1,12 +1,32 @@
 <?
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
-//use Bitrix\Disk\Folder;
-//use Bitrix\Main\FileTable;
+use Bitrix\Disk\Folder;
+use Bitrix\Main\FileTable;
 
-print_r($_REQUEST);
+if($_POST){
+    $el = new CIBlockElement;
+    foreach($_POST['file'] as $elFile){
+        echo $elFile;
+        $arPropFile[]=CFile::MakeFileArray($elFile);
+    }
+    $PROP[$arParams['PropertyID']]=$arPropFile;
+    $arLoadProductArray = Array(
+        "MODIFIED_BY"    => $USER->GetID(),
+        "IBLOCK_SECTION_ID" => false,
+        "IBLOCK_ID"      => $arParams['IBLOCK_ID'],
+        "PROPERTY_VALUES"=> $PROP,
+        "NAME"           => $_POST['name'],
+        "ACTIVE"         => "Y",
+    );
 
-/*$RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
+    if($PRODUCT_ID = $el->Add($arLoadProductArray))
+        echo "Создан элемент: ".$PRODUCT_ID;
+    else
+        echo "Ошибка: ".$el->LAST_ERROR;
+}
+
+$RoomCount=Folder::getList(array("filter"=>array("=PARENT_ID"=>$arParams["MainFolder"], "=TYPE"=>2, "=DELETED_TYPE"=>0)));
 while ($row = $RoomCount->fetch()){
     $RoomCountID[]=$row["ID"];
     $arResult['SelectRoomCountList'][$row["ID"]]=$row["NAME"];
@@ -34,6 +54,6 @@ while ($row = $AreaSize->fetch()){
         $SmilePicURL="/upload/".$arFile["SUBDIR"]."/".$arFile["FILE_NAME"];//FileTable::getById($rowPlans["FILE_ID"])->fetch(), Array("width" => 150, "height" => 300);
         $arResult['SelectVariantPlansList'][]=array("ID"=>$rowPlans["FILE_ID"], "NAME"=>$rowPlans["NAME"], "RoomCount"=>$elRoomCount["NAME"], "TypeHouse"=>$elTypeHouse["NAME"], "AreaSize"=>$row["NAME"], "SmilePicURL"=>$SmilePicURL);
     }
-}*/
+}
 $this->IncludeComponentTemplate($componentPage);
 ?>
