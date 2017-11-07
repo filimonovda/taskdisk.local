@@ -33,8 +33,9 @@ Loc::loadMessages(__FILE__);
     }
 </script>
 <form method="post">
-    <input name="name">
+    <label>Имя: </label><input name="name">
 <div>
+    <label>Файлы с диска: </label>
     <select name="SelectRoomCountList" id="SelectRoomCountList" onchange="javascript:selectadditems()">
         <option value="*"><?=Loc::getMessage("all")?></option>
     <?foreach ($arResult['SelectRoomCountList'] as $key => $value):?>

@@ -7,7 +7,6 @@ use Bitrix\Main\FileTable;
 if($_POST){
     $el = new CIBlockElement;
     foreach($_POST['file'] as $elFile){
-        echo $elFile;
         $arPropFile[]=CFile::MakeFileArray($elFile);
     }
     $PROP[$arParams['PropertyID']]=$arPropFile;
