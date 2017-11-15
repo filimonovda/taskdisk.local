@@ -49,7 +49,7 @@ if ($_REQUEST['typeelements'] == 'file') {
             ?>
             <select name="SelectList<?= $FolderID ?>" id="SelectList<?= $FolderID ?>"
                     onchange="javascript:selectadditems(this)">
-                <option value="<?= $FolderID ?>">Все</option>
+                <?if($FolderID != $_REQUEST['root']):?><option value="<?= $FolderID ?>">Все</option><?endif?>
                 <?
                 while ($FolderChildren = $objFolder->fetch()) {
                     ?>
