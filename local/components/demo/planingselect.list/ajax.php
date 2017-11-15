@@ -5,7 +5,6 @@ use Bitrix\Disk\Folder,
     Bitrix\Disk\Internals\ObjectTable,
     Bitrix\Main\FileTable;
 
-
 function GetChildrenFile($FolderScan)
 {
     $folder = Folder::loadById($FolderScan);
@@ -50,6 +49,7 @@ if ($_REQUEST['typeelements'] == 'file') {
             ?>
             <select name="SelectList<?= $FolderID ?>" id="SelectList<?= $FolderID ?>"
                     onchange="javascript:selectadditems(this)">
+                <option value="<?= $FolderID ?>">Все</option>
                 <?
                 while ($FolderChildren = $objFolder->fetch()) {
                     ?>
